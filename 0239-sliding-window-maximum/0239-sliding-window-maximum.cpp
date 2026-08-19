@@ -1,0 +1,63 @@
+// class Solution {
+// public:
+//     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+//         vector<int>ans;
+//         int n = nums.size();
+
+//         //================BRIUTE FORCE========================= 
+
+//         // for(int i = 0; i <(n-k+1); i++ ){
+//         //     int maxi = *max_element(nums.begin() + i, nums.begin() + k + i);
+//         //     ans.push_back(maxi);
+//         // }
+//         return ans;
+//     }
+// };
+
+
+// ====================NOTES_FOR_DEQUE============================================
+            // dq.push_front(x);
+            // dq.push_back(x);
+
+            // dq.pop_front();
+            // dq.pop_back();
+
+            // dq.front();
+            // dq.back();
+
+            // dq.size();
+            // dq.empty();
+
+            // dq[i];
+
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        deque<int> dq;
+
+        vector<int> result;
+
+        for (int i = 0; i < nums.size(); i++) {
+            // Remove elements from the front if they are out of this window's range
+            if (!dq.empty() && dq.front() <= i - k) {
+                dq.pop_front();
+            }
+
+            // Remove all elements from the back that are smaller than current element
+            while (!dq.empty() && nums[dq.back()] < nums[i]) {
+                dq.pop_back();
+            }
+
+            // Add the current index to the deque
+            dq.push_back(i);
+
+            // Once the first window is completed, add front element to result
+            if (i >= k - 1) {
+                result.push_back(nums[dq.front()]);
+            }
+        }
+
+        // Return the final result
+        return result;
+    }
+};
