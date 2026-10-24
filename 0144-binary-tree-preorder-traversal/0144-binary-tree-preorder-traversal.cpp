@@ -10,20 +10,55 @@
  * right(right) {}
  * };
  */
+
+// Using Recursion--->
+
+// class Solution {
+// public:
+//     vector<int> ans;
+//     void preorder(TreeNode* root) {
+//         if (root == nullptr) {
+//             return;
+//         }
+//         ans.push_back(root->val);
+//         preorder(root->left);
+//         preorder(root->right);
+//     }
+//     vector<int> preorderTraversal(TreeNode* root) {
+//         ans.clear();
+//         preorder(root);
+//         return ans;
+//     }
+// };
+
+// Using Stack --->
+
+
 class Solution {
 public:
-    vector<int> ans;
-    void preorder(TreeNode* root) {
-        if (root == nullptr) {
-            return;
-        }
-        ans.push_back(root->val);
-        preorder(root->left);
-        preorder(root->right);
-    }
     vector<int> preorderTraversal(TreeNode* root) {
-        ans.clear();
-        preorder(root);
-        return ans;
+        vector<int> preorder;
+
+        if (root == NULL) return preorder;
+
+        stack<TreeNode*> st;
+        st.push(root);
+
+        while (!st.empty()) {
+            root = st.top();
+            st.pop();
+
+            preorder.push_back(root->val);
+
+            if (root->right != NULL) {
+                st.push(root->right);
+            }
+
+            if (root->left != NULL) {
+                st.push(root->left);
+            }
+        }
+
+        return preorder;
     }
 };
